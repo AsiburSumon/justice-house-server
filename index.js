@@ -16,6 +16,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run (){
     try{
         const serviceCollection = client.db('justiceHome').collection('services');
+        const reviewCollection = client.db('justiceHome').collection('review');
 
         app.get('/services', async(req, res) => {
             const query = {}
@@ -43,6 +44,13 @@ async function run (){
             console.log(service);
             const result = await serviceCollection.insertOne(service)
             res.send(result);
+        });
+
+        // review api are here
+        app.post('/reviews', async(req, res) => {
+            const reviews = req.body;
+            const result = await reviewCollection.insertOne(reviews);
+            res.send(result)
         })
     }
     finally{
